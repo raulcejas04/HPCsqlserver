@@ -1,0 +1,13 @@
+<table>
+    {% for dispositivo in pagination %}
+        <tr>
+            <td>
+                <a href="{{ path('dispositivos_new', {'id': dispositivo.idDispositivoHpc, 'page': page}) }}">{{ dispositivo.descripcion }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>

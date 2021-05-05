@@ -16,9 +16,9 @@
 
             {{ include('dispositivos/_form.html.twig') }}
 
-        <div style="height:420px;overflow:auto;">
+        <div style="height:400px">
             <table border="1" class="table table-dark" >
-                <thead class="fixedHeader">
+{#              <thead class="fixedHeader">
                     <th>Código Interno</th>
                     <th>Dispositivo</th>
                     <th>Acción</th>
@@ -38,10 +38,52 @@
                     </tr>
                 {% endfor %}
                 </tbody>
+            </table> #}
+                <thead class="fixedHeader">
+                <th>Código Interno</th>
+                <th>Dispositivo</th>
+                <th>Acción</th>
+                </thead>
+                <tbody>
+                {% for dispositivo in pagination %}
+                    <tr>
+                        <td>
+                            {{ dispositivo.codigoDispositivo }}
+                        </td>
+                        <td>
+                            <a href="{{ path('dispositivos_new', {'id': dispositivo.idDispositivoHpc, 'page': page}) }}">{{ dispositivo.descripcion }}</a>
+                        </td>
+                        <td>
+                            {{ include('dispositivos/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
-        </div>
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
             <a class="btn btn-warning" href="{{ path('usuario') }}">Confirmar Altas</a>
+        </div>
+
     {% endblock main_content %}
+
+    {% block pagi %}
+        <table>
+            {% for dispositivo in pagination %}
+                <tr>
+                    <td>
+                        <a href="{{ path('dispositivos_new', {'id': dispositivo.idDispositivoHpc, 'page': page}) }}">{{ dispositivo.descripcion }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    {% endblock pagi %}
+
 
 {% endblock %}
 

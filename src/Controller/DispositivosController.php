@@ -8,6 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
+
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @Route("/dispositivos")
@@ -31,11 +35,12 @@ class DispositivosController extends AbstractController
     /**
      * @Route("/new", name="dispositivos_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, PaginatorInterface $paginator, SessionInterface $session )
     {
         $dispositivo = new Dispositivos();
         $form = $this->createForm(DispositivosType::class, $dispositivo);
         $form->handleRequest($request);
+        $pagination = $this->pagination( $paginator, $request, $session, 0 );
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -52,8 +57,28 @@ class DispositivosController extends AbstractController
         return $this->render('dispositivos/new.html.twig', [
             'dispositivo' => $dispositivo,
             'form' => $form->createView(),
-            'dispositivos' =>$dispositivos,
+            'dispositivos' =>$dispositivos, 'pagination' => $pagination, 'page'=>$pagination->getCurrentPageNumber()
         ]);
+
+    }
+
+    /**
+     * @Route("/new/{page<\d*>}", name="dispositivos_new_page")
+     */
+    public function new_page( Request $request, PaginatorInterface $paginator, SessionInterface $session, int $page )
+    {
+
+        $pagination = $this->pagination( $paginator, $request, $session, $page );
+
+        // Render the twig view
+        /*return $this->render('usuario/index.twig',
+                ['pagination' => $pagination]
+            );*/
+        return $this->render('dispositivos/new.html.twig',
+            ['pagination' => $pagination, 'page'=>$page ]
+        );
+
+
     }
 
     /**
@@ -98,5 +123,28 @@ class DispositivosController extends AbstractController
         }
 
         return $this->redirectToRoute('dispositivos_new');
+    }
+    function pagination( PaginatorInterface $paginator, Request $request, SessionInterface $session, int $page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dispositivosRepository = $em->getRepository(dispositivos::class);
+        $allDispositivosQuery = $dispositivosRepository->createQueryBuilder('p')
+            ->orderBy('p.descripcion')
+            ->getQuery();
+        if( $page >0 )
+            $indice=$page;
+        else
+            $indice=$request->query->getInt('page', 1);
+        $pagination = $paginator->paginate(
+        // Doctrine Query, not results
+            $allDispositivosQuery,
+            // Define the page parameter
+            $indice,
+            // Items per page
+            10
+        );
+        $pagination->setTemplate('dispositivos/my_pagination.html.twig');
+
+        return $pagination;
     }
 }

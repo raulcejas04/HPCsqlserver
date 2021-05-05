@@ -183,8 +183,9 @@ class UsuarioController extends AbstractController
     /**
      * @Route("/new", name="usuario_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, PaginatorInterface $paginator, SessionInterface $session): Response
     {
+        $pagination = $this->pagination( $paginator, $request, $session, 0 );
         $usuario = new Usuario();
         $form = $this->createForm(UsuarioType2::class, $usuario);
         $form->handleRequest($request);
@@ -203,8 +204,22 @@ class UsuarioController extends AbstractController
         return $this->render('usuario/new.html.twig', [
             'usuario' => $usuario,
             'form' => $form->createView(),
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'pagination' => $pagination,
+            'page'=>$pagination->getCurrentPageNumber()
         ]);
+    }
+    /**
+     * @Route("/new/{page<\d*>}", name="usuario_new_page")
+     */
+    public function new_page( Request $request, PaginatorInterface $paginator, SessionInterface $session, int $page )
+    {
+
+        $pagination = $this->pagination($paginator, $request, $session, $page);
+
+        return $this->render('usuario/new.html.twig',
+            ['pagination' => $pagination, 'page' => $page]
+        );
     }
     /**
      * @Route("/{idUserHpc}", name="usuarios_delete", methods={"DELETE"})

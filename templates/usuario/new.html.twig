@@ -20,7 +20,7 @@
             <button>buscar</button>
         </form>
         {{ include('usuario/_form.html.twig') }}
-        <div style="height:400px;overflow:auto;">
+        <div>
             <table border="1" class="table table-dark">
                 <thead>
                 <tr>
@@ -32,7 +32,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for usuario in usuarios %}
+                {% for usuario in pagination %}
                     <tr>
                         <th>{{ usuario.idUserAd }}</th>
                         <td>{{ usuario.nombre }}</td>
@@ -45,8 +45,12 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+            <a href="{{ url('usuario') }}"class="btn btn-primary">Confirmar alta y salir</a>
         </div>
-        <a href="{{ url('usuario') }}"class="btn btn-primary">Confirmar alta y salir</a>
+
 
     {% endblock main_content %}
 

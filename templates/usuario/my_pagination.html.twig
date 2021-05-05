@@ -40,7 +40,7 @@
                 {% endif %}
             {% endif %}
 
-            {# {% for page in pagesInRange %}
+             {% for page in pagesInRange %}
                 {% if page != current %}
                     <li class="page-item">
                         <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
@@ -51,7 +51,7 @@
                     </li>
                 {% endif %}
 
-            {% endfor %} #}
+            {% endfor %}
 
             {% if pageCount > endPage %}
                 {% if pageCount > (endPage + 1) %}

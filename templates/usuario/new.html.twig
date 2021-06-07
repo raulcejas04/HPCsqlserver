@@ -17,11 +17,11 @@
         <h1>Alta de usuarios</h1>
         <form>
             <input id="searchbox" type="text" >
-            <button>buscar</button>
+            <button class="btn btn-secondary">buscar</button>
         </form>
         {{ include('usuario/_form.html.twig') }}
         <div>
-            <table border="1" class="table table-dark">
+            <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">UserName</th>
@@ -48,7 +48,7 @@
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
-            <a href="{{ url('usuario') }}"class="btn btn-primary">Confirmar alta y salir</a>
+            <a href="{{ url('usuario') }}"class="btn btn-secondary">Confirmar alta y salir</a>
         </div>
 
 
@@ -57,6 +57,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('collections') }}
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/collections.js') }}" type="text/javascript"></script>
 {% endblock %}

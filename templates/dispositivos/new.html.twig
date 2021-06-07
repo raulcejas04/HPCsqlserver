@@ -17,7 +17,7 @@
             {{ include('dispositivos/_form.html.twig') }}
 
         <div style="height:400px">
-            <table border="1" class="table table-dark" >
+            <table class="table" >
 {#              <thead class="fixedHeader">
                     <th>Código Interno</th>
                     <th>Dispositivo</th>
@@ -51,7 +51,8 @@
                             {{ dispositivo.codigoDispositivo }}
                         </td>
                         <td>
-                            <a href="{{ path('dispositivos_new', {'id': dispositivo.idDispositivoHpc, 'page': page}) }}">{{ dispositivo.descripcion }}</a>
+{#                            <a href="{{ path('dispositivos_new', {'id': dispositivo.idDispositivoHpc, 'page': page}) }}">{{ dispositivo.descripcion }}</a>#}
+                            {{ dispositivo.descripcion }}
                         </td>
                         <td>
                             {{ include('dispositivos/_delete_form.html.twig') }}
@@ -63,7 +64,7 @@
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
-            <a class="btn btn-warning" href="{{ path('usuario') }}">Confirmar Altas</a>
+            <a class="btn btn-secondary" href="{{ path('usuario') }} role="button"">Confirmar Altas</a>
         </div>
 
     {% endblock main_content %}

@@ -7,13 +7,14 @@
     {#    {% endblock sidebar_content %}#}
 
     {% block main_content %}
-            <h1>Edit Dispositivos</h1>
+        <h1>Editar Dispositivo</h1>
 
-            {{ include('dispositivos/_form.html.twig', {'button_label': 'Update'}) }}
+        <div>
+            {{ include('dispositivos/_form.html.twig', {'button_label': 'Actualizar'}) }}
+{#            {{ include('dispositivos/_delete_form.html.twig') }}#}
+        </div>
 
-            <a href="{{ path('dispositivos_index') }}">back to list</a>
-
-            {{ include('dispositivos/_delete_form.html.twig') }}
+{#        <a href="{{ path('dispositivos_index') }}">back to list</a>#}
     {% endblock main_content %}
 
 {% endblock %}

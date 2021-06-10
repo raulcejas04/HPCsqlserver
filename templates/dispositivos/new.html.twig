@@ -40,9 +40,9 @@
                 </tbody>
             </table> #}
                 <thead class="fixedHeader">
-                <th>Código Interno</th>
-                <th>Dispositivo</th>
-                <th>Acción</th>
+                    <th>Código Interno</th>
+                    <th>Dispositivo</th>
+                    <th>Acción</th>
                 </thead>
                 <tbody>
                 {% for dispositivo in pagination %}
@@ -55,7 +55,9 @@
                             {{ dispositivo.descripcion }}
                         </td>
                         <td>
-                            {{ include('dispositivos/_delete_form.html.twig') }}
+{#                            {{ include('dispositivos/_delete_form.html.twig') }}#}
+                            <a href="{{ path('dispositivos_show', {'idDispositivoHpc': dispositivo.idDispositivoHpc}) }}" class="btn btn-danger" role="button"><i class="fa fa-trash-o" aria-hidden="true" title="Eliminar"></i></a>
+                            <a href="{{ path('dispositivos_edit', {'idDispositivoHpc': dispositivo.idDispositivoHpc}) }}" class="btn btn-warning" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Modificar"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -64,7 +66,7 @@
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
-            <a class="btn btn-secondary" href="{{ path('usuario') }} role="button"">Confirmar Altas</a>
+            <a class="btn btn-secondary" href="{{ path('usuario') }}" role="button">Confirmar Altas</a>
         </div>
 
     {% endblock main_content %}

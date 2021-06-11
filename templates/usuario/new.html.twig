@@ -17,7 +17,7 @@
         <h1>Alta de usuarios</h1>
         <form>
             <input id="searchbox" type="text" >
-            <button class="btn btn-secondary">buscar</button>
+            <button class="btn btn-secondary" type="button" onclick="buscar()">buscar</button>
         </form>
         {{ include('usuario/_form.html.twig') }}
         <div>
@@ -59,4 +59,18 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/collections.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        function buscar(){
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('searchKeycloakUserAjax') }}",
+                data: ({'searchBox': $('#searchbox').val()}),
+                async: true,
+                dataType: "json",
+                success: function(data){
+                    $('#usuario_type2_idUserAd').val(data['username']);
+                }
+            })
+        }
+    </script>
 {% endblock %}
